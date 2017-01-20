@@ -15,11 +15,11 @@
  */
 package org.everit.json.schema;
 
+import com.google.common.base.Objects;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 /**
  * Deep-equals implementation on primitive wrappers, {@link JSONObject} and {@link JSONArray}.
@@ -45,7 +45,7 @@ public final class ObjectComparator {
             }
             return deepEqualObjects((JSONObject) obj1, (JSONObject) obj2);
         }
-        return Objects.equals(obj1, obj2);
+        return Objects.equal(obj1, obj2);
     }
 
     private static boolean deepEqualArrays(final JSONArray arr1, final JSONArray arr2) {

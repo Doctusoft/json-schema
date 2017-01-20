@@ -1,6 +1,10 @@
 package org.everit.json.schema.loader;
 
-import org.everit.json.schema.*;
+import org.everit.json.schema.BooleanSchema;
+import org.everit.json.schema.ObjectSchema;
+import org.everit.json.schema.ResourceLoader;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.SchemaException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Test;

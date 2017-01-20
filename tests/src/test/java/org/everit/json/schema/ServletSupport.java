@@ -15,14 +15,13 @@
  */
 package org.everit.json.schema;
 
+import com.google.common.base.Preconditions;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import java.io.File;
 import java.net.URISyntaxException;
-
-import static java.util.Objects.requireNonNull;
 
 public class ServletSupport {
 
@@ -41,7 +40,7 @@ public class ServletSupport {
     private final File documentRoot;
 
     public ServletSupport(final File documentRoot) {
-        this.documentRoot = requireNonNull(documentRoot, "documentRoot cannot be null");
+        this.documentRoot = Preconditions.checkNotNull(documentRoot, "documentRoot cannot be null");
     }
 
     public void run(final Runnable runnable) {

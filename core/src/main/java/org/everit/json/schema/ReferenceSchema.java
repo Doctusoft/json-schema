@@ -15,11 +15,9 @@
  */
 package org.everit.json.schema;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import org.everit.json.schema.internal.JSONPrinter;
-
-import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * This class is used by {@link org.everit.json.schema.loader.SchemaLoader} to resolve JSON pointers
@@ -68,7 +66,7 @@ public class ReferenceSchema extends Schema {
 
     public ReferenceSchema(final Builder builder) {
         super(builder);
-        this.refValue = requireNonNull(builder.refValue, "refValue cannot be null");
+        this.refValue = Preconditions.checkNotNull(builder.refValue, "refValue cannot be null");
     }
 
     @Override
@@ -111,8 +109,8 @@ public class ReferenceSchema extends Schema {
         if (o instanceof ReferenceSchema) {
             ReferenceSchema that = (ReferenceSchema) o;
             return that.canEqual(this) &&
-                    Objects.equals(refValue, that.refValue) &&
-                    Objects.equals(referredSchema, that.referredSchema) &&
+                    Objects.equal(refValue, that.refValue) &&
+                    Objects.equal(referredSchema, that.referredSchema) &&
                     super.equals(that);
         } else {
             return false;
@@ -121,7 +119,7 @@ public class ReferenceSchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), referredSchema, refValue);
+        return Objects.hashCode(super.hashCode(), referredSchema, refValue);
     }
 
     @Override

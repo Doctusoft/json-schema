@@ -1,6 +1,7 @@
 package org.everit.json.schema.loader;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import org.everit.json.schema.Consumer;
 import org.everit.json.schema.FormatValidator;
 import org.everit.json.schema.ReferenceSchema;
@@ -12,8 +13,6 @@ import org.json.JSONPointer;
 
 import java.net.URI;
 import java.util.Map;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author erosb
@@ -40,11 +39,11 @@ class LoadingState {
             JSONObject rootSchemaJson,
             JSONObject schemaJson,
             URI id) {
-        this.httpClient = requireNonNull(httpClient, "httpClient cannot be null");
-        this.formatValidators = requireNonNull(formatValidators, "formatValidators cannot be null");
-        this.pointerSchemas = requireNonNull(pointerSchemas, "pointerSchemas cannot be null");
-        this.rootSchemaJson = requireNonNull(rootSchemaJson, "rootSchemaJson cannot be null");
-        this.schemaJson = requireNonNull(schemaJson, "schemaJson cannot be null");
+        this.httpClient = Preconditions.checkNotNull(httpClient, "httpClient cannot be null");
+        this.formatValidators = Preconditions.checkNotNull(formatValidators, "formatValidators cannot be null");
+        this.pointerSchemas = Preconditions.checkNotNull(pointerSchemas, "pointerSchemas cannot be null");
+        this.rootSchemaJson = Preconditions.checkNotNull(rootSchemaJson, "rootSchemaJson cannot be null");
+        this.schemaJson = Preconditions.checkNotNull(schemaJson, "schemaJson cannot be null");
         this.id = id;
     }
 

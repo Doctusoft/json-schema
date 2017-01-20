@@ -16,6 +16,8 @@
 package org.everit.json.schema;
 
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.FluentIterable;
@@ -24,10 +26,8 @@ import org.everit.json.schema.internal.JSONPrinter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
 
 /**
  * Validator for {@code allOf}, {@code oneOf}, {@code anyOf} schemas.
@@ -175,8 +175,8 @@ public class CombinedSchema extends Schema {
      */
     public CombinedSchema(final Builder builder) {
         super(builder);
-        this.criterion = requireNonNull(builder.criterion, "criterion cannot be null");
-        this.subschemas = requireNonNull(builder.subschemas, "subschemas cannot be null");
+        this.criterion = Preconditions.checkNotNull(builder.criterion, "criterion cannot be null");
+        this.subschemas = Preconditions.checkNotNull(builder.subschemas, "subschemas cannot be null");
     }
 
     public ValidationCriterion getCriterion() {
@@ -245,8 +245,8 @@ public class CombinedSchema extends Schema {
         if (o instanceof CombinedSchema) {
             CombinedSchema that = (CombinedSchema) o;
             return that.canEqual(this) &&
-                    Objects.equals(subschemas, that.subschemas) &&
-                    Objects.equals(criterion, that.criterion) &&
+                    Objects.equal(subschemas, that.subschemas) &&
+                    Objects.equal(criterion, that.criterion) &&
                     super.equals(that);
         } else {
             return false;
@@ -265,7 +265,7 @@ public class CombinedSchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), subschemas, criterion);
+        return Objects.hashCode(super.hashCode(), subschemas, criterion);
     }
 
     @Override

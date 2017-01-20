@@ -1,11 +1,10 @@
 package org.everit.json.schema.loader;
 
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import org.everit.json.schema.Consumer;
 import org.everit.json.schema.FormatValidator;
 import org.everit.json.schema.StringSchema;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author erosb
@@ -15,7 +14,7 @@ public class StringSchemaLoader {
     private LoadingState ls;
 
     public StringSchemaLoader(LoadingState ls) {
-        this.ls = requireNonNull(ls, "ls cannot be null");
+        this.ls = Preconditions.checkNotNull(ls, "ls cannot be null");
     }
 
     public StringSchema.Builder load() {

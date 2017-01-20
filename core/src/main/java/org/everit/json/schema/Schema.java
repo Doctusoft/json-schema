@@ -15,11 +15,11 @@
  */
 package org.everit.json.schema;
 
+import com.google.common.base.Objects;
 import org.everit.json.schema.internal.JSONPrinter;
 import org.json.JSONWriter;
 
 import java.io.StringWriter;
-import java.util.Objects;
 
 /**
  * Superclass of all other schema validator classes of this package.
@@ -139,9 +139,9 @@ public abstract class Schema {
         if (o instanceof Schema) {
             Schema schema = (Schema) o;
             return schema.canEqual(this) &&
-                    Objects.equals(title, schema.title) &&
-                    Objects.equals(description, schema.description) &&
-                    Objects.equals(id, schema.id);
+                    Objects.equal(title, schema.title) &&
+                    Objects.equal(description, schema.description) &&
+                    Objects.equal(id, schema.id);
         } else {
             return false;
         }
@@ -149,7 +149,7 @@ public abstract class Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, id);
+        return Objects.hashCode(title, description, id);
     }
 
     public String getTitle() {

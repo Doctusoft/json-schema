@@ -1,12 +1,12 @@
 package org.everit.json.schema;
 
+import com.google.common.base.Preconditions;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.InputStream;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
 
 public class ResourceLoader {
 
@@ -15,7 +15,7 @@ public class ResourceLoader {
     private final String rootPath;
 
     public ResourceLoader(String rootPath) {
-        this.rootPath = requireNonNull(rootPath, "rootPath cannot be null");
+        this.rootPath = Preconditions.checkNotNull(rootPath, "rootPath cannot be null");
     }
 
     public JSONObject readObj(String relPath) {

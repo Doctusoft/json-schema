@@ -15,10 +15,10 @@
  */
 package org.everit.json.schema;
 
+import com.google.common.base.Objects;
 import org.everit.json.schema.internal.JSONPrinter;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * Number schema validator.
@@ -211,9 +211,9 @@ public class NumberSchema extends Schema {
                     exclusiveMinimum == that.exclusiveMinimum &&
                     exclusiveMaximum == that.exclusiveMaximum &&
                     requiresInteger == that.requiresInteger &&
-                    Objects.equals(minimum, that.minimum) &&
-                    Objects.equals(maximum, that.maximum) &&
-                    Objects.equals(multipleOf, that.multipleOf) &&
+                    Objects.equal(minimum, that.minimum) &&
+                    Objects.equal(maximum, that.maximum) &&
+                    Objects.equal(multipleOf, that.multipleOf) &&
                     super.equals(that);
         } else {
             return false;
@@ -236,8 +236,7 @@ public class NumberSchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects
-                .hash(super.hashCode(), requiresNumber, minimum, maximum, multipleOf, exclusiveMinimum, exclusiveMaximum, requiresInteger);
+        return Objects.hashCode(super.hashCode(), requiresNumber, minimum, maximum, multipleOf, exclusiveMinimum, exclusiveMaximum, requiresInteger);
     }
 
     @Override

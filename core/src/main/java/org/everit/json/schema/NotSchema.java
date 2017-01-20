@@ -15,11 +15,9 @@
  */
 package org.everit.json.schema;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 import org.everit.json.schema.internal.JSONPrinter;
-
-import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * {@code Not} schema validator.
@@ -53,7 +51,7 @@ public class NotSchema extends Schema {
 
     public NotSchema(final Builder builder) {
         super(builder);
-        this.mustNotMatch = requireNonNull(builder.mustNotMatch, "mustNotMatch cannot be null");
+        this.mustNotMatch = Preconditions.checkNotNull(builder.mustNotMatch, "mustNotMatch cannot be null");
     }
 
     public Schema getMustNotMatch() {
@@ -78,7 +76,7 @@ public class NotSchema extends Schema {
         if (o instanceof NotSchema) {
             NotSchema that = (NotSchema) o;
             return that.canEqual(this) &&
-                    Objects.equals(mustNotMatch, that.mustNotMatch) &&
+                    Objects.equal(mustNotMatch, that.mustNotMatch) &&
                     super.equals(that);
         } else {
             return false;
@@ -87,7 +85,7 @@ public class NotSchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), mustNotMatch);
+        return Objects.hashCode(super.hashCode(), mustNotMatch);
     }
 
     @Override

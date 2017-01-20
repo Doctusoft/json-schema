@@ -16,16 +16,15 @@
 package org.everit.json.schema;
 
 import com.google.common.base.Function;
+import com.google.common.base.Objects;
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import org.everit.json.schema.internal.JSONPrinter;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Array schema validator.
@@ -66,7 +65,7 @@ public class ArraySchema extends Schema {
             if (itemSchemas == null) {
                 itemSchemas = new ArrayList<Schema>();
             }
-            itemSchemas.add(requireNonNull(itemSchema, "itemSchema cannot be null"));
+            itemSchemas.add(Preconditions.checkNotNull(itemSchema, "itemSchema cannot be null"));
             return this;
         }
 
@@ -319,11 +318,11 @@ public class ArraySchema extends Schema {
                     uniqueItems == that.uniqueItems &&
                     additionalItems == that.additionalItems &&
                     requiresArray == that.requiresArray &&
-                    Objects.equals(minItems, that.minItems) &&
-                    Objects.equals(maxItems, that.maxItems) &&
-                    Objects.equals(allItemSchema, that.allItemSchema) &&
-                    Objects.equals(itemSchemas, that.itemSchemas) &&
-                    Objects.equals(schemaOfAdditionalItems, that.schemaOfAdditionalItems) &&
+                    Objects.equal(minItems, that.minItems) &&
+                    Objects.equal(maxItems, that.maxItems) &&
+                    Objects.equal(allItemSchema, that.allItemSchema) &&
+                    Objects.equal(itemSchemas, that.itemSchemas) &&
+                    Objects.equal(schemaOfAdditionalItems, that.schemaOfAdditionalItems) &&
                     super.equals(o);
         } else {
             return false;
@@ -364,7 +363,7 @@ public class ArraySchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), minItems, maxItems, uniqueItems, allItemSchema,
+        return Objects.hashCode(super.hashCode(), minItems, maxItems, uniqueItems, allItemSchema,
                 additionalItems, itemSchemas, requiresArray, schemaOfAdditionalItems);
     }
 }

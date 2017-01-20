@@ -2,6 +2,7 @@ package org.everit.json.schema.loader;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 
 import static java.util.Arrays.asList;
-import static java.util.Objects.requireNonNull;
 import static org.everit.json.schema.CombinedSchema.allOf;
 
 /**
@@ -31,7 +31,7 @@ class CombinedSchemaLoader {
     private interface CombinedSchemaProvider extends Function<Collection<Schema>, CombinedSchema.Builder> {
     }
 
-    private static final Map<String, CombinedSchemaProvider> COMB_SCHEMA_PROVIDERS = new HashMap<>(3);
+    private static final Map<String, CombinedSchemaProvider> COMB_SCHEMA_PROVIDERS = new HashMap<String, CombinedSchemaProvider>(3);
 
     static {
         COMB_SCHEMA_PROVIDERS.put("allOf", new CombinedSchemaProvider() {
@@ -59,8 +59,8 @@ class CombinedSchemaLoader {
     private final SchemaLoader defaultLoader;
 
     public CombinedSchemaLoader(LoadingState ls, SchemaLoader defaultLoader) {
-        this.ls = requireNonNull(ls, "ls cannot be null");
-        this.defaultLoader = requireNonNull(defaultLoader, "defaultLoader cannot be null");
+        this.ls = Preconditions.checkNotNull(ls, "ls cannot be null");
+        this.defaultLoader = Preconditions.checkNotNull(defaultLoader, "defaultLoader cannot be null");
     }
 
     public Optional<? extends Schema.Builder<?>> load() {

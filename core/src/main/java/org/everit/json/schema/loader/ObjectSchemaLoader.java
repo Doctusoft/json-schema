@@ -1,11 +1,10 @@
 package org.everit.json.schema.loader;
 
+import com.google.common.base.Preconditions;
 import org.everit.json.schema.Consumer;
 import org.everit.json.schema.ObjectSchema;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author erosb
@@ -17,8 +16,8 @@ class ObjectSchemaLoader {
     private final SchemaLoader defaultLoader;
 
     public ObjectSchemaLoader(LoadingState ls, SchemaLoader defaultLoader) {
-        this.ls = requireNonNull(ls, "ls cannot be null");
-        this.defaultLoader = requireNonNull(defaultLoader, "defaultLoader cannot be null");
+        this.ls = Preconditions.checkNotNull(ls, "ls cannot be null");
+        this.defaultLoader = Preconditions.checkNotNull(defaultLoader, "defaultLoader cannot be null");
     }
 
     ObjectSchema.Builder load() {

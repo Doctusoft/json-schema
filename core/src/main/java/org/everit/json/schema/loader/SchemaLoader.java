@@ -1,12 +1,31 @@
 package org.everit.json.schema.loader;
 
+import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Sets;
-import org.everit.json.schema.*;
-import org.everit.json.schema.internal.*;
+import org.everit.json.schema.ArraySchema;
+import org.everit.json.schema.BooleanSchema;
+import org.everit.json.schema.CombinedSchema;
+import org.everit.json.schema.Consumer;
+import org.everit.json.schema.EmptySchema;
+import org.everit.json.schema.EnumSchema;
+import org.everit.json.schema.FormatValidator;
+import org.everit.json.schema.NotSchema;
+import org.everit.json.schema.NullSchema;
+import org.everit.json.schema.NumberSchema;
+import org.everit.json.schema.ObjectSchema;
+import org.everit.json.schema.ReferenceSchema;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.SchemaException;
+import org.everit.json.schema.internal.DateTimeFormatValidator;
+import org.everit.json.schema.internal.EmailFormatValidator;
+import org.everit.json.schema.internal.HostnameFormatValidator;
+import org.everit.json.schema.internal.IPV4Validator;
+import org.everit.json.schema.internal.IPV6Validator;
+import org.everit.json.schema.internal.URIFormatValidator;
 import org.everit.json.schema.loader.internal.DefaultSchemaClient;
 import org.everit.json.schema.loader.internal.WrappingFormatValidator;
 import org.json.JSONArray;
@@ -15,7 +34,12 @@ import org.json.JSONObject;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static java.util.Arrays.asList;
 
@@ -35,11 +59,11 @@ public class SchemaLoader {
 
         JSONObject rootSchemaJson;
 
-        Map<String, ReferenceSchema.Builder> pointerSchemas = new HashMap<>();
+        Map<String, ReferenceSchema.Builder> pointerSchemas = new HashMap<String, ReferenceSchema.Builder>();
 
         URI id;
 
-        Map<String, FormatValidator> formatValidators = new HashMap<>();
+        Map<String, FormatValidator> formatValidators = new HashMap<String, FormatValidator>();
 
         {
             formatValidators.put("date-time", new DateTimeFormatValidator());
@@ -71,7 +95,7 @@ public class SchemaLoader {
         @Deprecated
         public SchemaLoaderBuilder addFormatValidator(final String formatName,
                 final FormatValidator formatValidator) {
-            if (!Objects.equals(formatName, formatValidator.formatName())) {
+            if (!Objects.equal(formatName, formatValidator.formatName())) {
                 formatValidators.put(formatName, new WrappingFormatValidator(formatName, formatValidator));
             } else {
                 formatValidators.put(formatName, formatValidator);
@@ -197,7 +221,9 @@ public class SchemaLoader {
         if (id == null && builder.schemaJson.has("id")) {
             try {
                 id = new URI(builder.schemaJson.getString("id"));
-            } catch (JSONException | URISyntaxException e) {
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -227,7 +253,7 @@ public class SchemaLoader {
 
     private CombinedSchema.Builder buildAnyOfSchemaForMultipleTypes() {
         JSONArray subtypeJsons = ls.schemaJson.getJSONArray("type");
-        Collection<Schema> subschemas = new ArrayList<>(subtypeJsons.length());
+        Collection<Schema> subschemas = new ArrayList<Schema>(subtypeJsons.length());
         for (int i = 0; i < subtypeJsons.length(); ++i) {
             String subtypeJson = subtypeJsons.getString(i);
             Schema.Builder<?> schemaBuilder = loadForExplicitType(subtypeJson);
@@ -345,23 +371,22 @@ public class SchemaLoader {
     }
 
     private Schema.Builder<?> loadForExplicitType(final String typeString) {
-        switch (typeString) {
-            case "string":
-                return new StringSchemaLoader(ls).load();
-            case "integer":
-                return buildNumberSchema().requiresInteger(true);
-            case "number":
-                return buildNumberSchema();
-            case "boolean":
-                return BooleanSchema.builder();
-            case "null":
-                return NullSchema.builder();
-            case "array":
-                return buildArraySchema();
-            case "object":
-                return buildObjectSchema();
-            default:
-                throw new SchemaException(String.format("unknown type: [%s]", typeString));
+        if (typeString.equals("string")) {
+            return new StringSchemaLoader(ls).load();
+        } else if (typeString.equals("integer")) {
+            return buildNumberSchema().requiresInteger(true);
+        } else if (typeString.equals("number")) {
+            return buildNumberSchema();
+        } else if (typeString.equals("boolean")) {
+            return BooleanSchema.builder();
+        } else if (typeString.equals("null")) {
+            return NullSchema.builder();
+        } else if (typeString.equals("array")) {
+            return buildArraySchema();
+        } else if (typeString.equals("object")) {
+            return buildObjectSchema();
+        } else {
+            throw new SchemaException(String.format("unknown type: [%s]", typeString));
         }
     }
 

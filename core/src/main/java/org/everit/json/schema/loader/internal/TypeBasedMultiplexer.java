@@ -16,6 +16,7 @@
 package org.everit.json.schema.loader.internal;
 
 import com.google.common.base.Function;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.FluentIterable;
 import org.everit.json.schema.Consumer;
@@ -27,8 +28,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * Used by {@code org.everit.json.schema.loader.SchemaLoader.SchemaLoader} during schema loading for
@@ -133,7 +132,7 @@ public class TypeBasedMultiplexer {
 
     }
 
-    private final Map<Class<?>, Consumer<?>> actions = new HashMap<>();
+    private final Map<Class<?>, Consumer<?>> actions = new HashMap<Class<?>, Consumer<?>>();
 
     private final String keyOfObj;
 
@@ -141,7 +140,7 @@ public class TypeBasedMultiplexer {
 
     private URI id;
 
-    private final Collection<ResolutionScopeChangeListener> scopeChangeListeners = new ArrayList<>(1);
+    private final Collection<ResolutionScopeChangeListener> scopeChangeListeners = new ArrayList<ResolutionScopeChangeListener>(1);
 
     /**
      * Constructor with {@code null} {@code keyOfObj} and {@code null} {@code id}.
@@ -176,7 +175,7 @@ public class TypeBasedMultiplexer {
      */
     public TypeBasedMultiplexer(final String keyOfObj, final Object obj, final URI id) {
         this.keyOfObj = keyOfObj;
-        this.obj = requireNonNull(obj, "obj cannot be null");
+        this.obj = Preconditions.checkNotNull(obj, "obj cannot be null");
         this.id = id;
     }
 
@@ -261,7 +260,7 @@ public class TypeBasedMultiplexer {
         orElse(new Consumer<Object>() {
             @Override
             public void accept(Object obj) {
-                throw new SchemaException(keyOfObj, new ArrayList<>(actions.keySet()), obj);
+                throw new SchemaException(keyOfObj, new ArrayList<Class<?>>(actions.keySet()), obj);
             }
         });
     }

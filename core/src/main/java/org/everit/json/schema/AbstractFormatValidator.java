@@ -15,9 +15,14 @@
  */
 package org.everit.json.schema;
 
-import org.everit.json.schema.internal.*;
+import com.google.common.base.Preconditions;
+import org.everit.json.schema.internal.DateTimeFormatValidator;
+import org.everit.json.schema.internal.EmailFormatValidator;
+import org.everit.json.schema.internal.HostnameFormatValidator;
+import org.everit.json.schema.internal.IPV4Validator;
+import org.everit.json.schema.internal.IPV6Validator;
+import org.everit.json.schema.internal.URIFormatValidator;
 
-import static java.util.Objects.requireNonNull;
 
 /**
  * Implementations perform the validation against the "format" keyword (see JSON Schema spec section
@@ -42,22 +47,21 @@ public abstract class AbstractFormatValidator implements FormatValidator {
      * @return a {@code FormatValidator} implementation handling the {@code formatName} format.
      */
     static FormatValidator forFormat(final String formatName) {
-        requireNonNull(formatName, "formatName cannot be null");
-        switch (formatName) {
-            case "date-time":
-                return new DateTimeFormatValidator();
-            case "email":
-                return new EmailFormatValidator();
-            case "hostname":
-                return new HostnameFormatValidator();
-            case "uri":
-                return new URIFormatValidator();
-            case "ipv4":
-                return new IPV4Validator();
-            case "ipv6":
-                return new IPV6Validator();
-            default:
-                throw new IllegalArgumentException("unsupported format: " + formatName);
+        Preconditions.checkNotNull(formatName, "formatName cannot be null");
+        if (formatName.equals("date-time")) {
+            return new DateTimeFormatValidator();
+        } else if (formatName.equals("email")) {
+            return new EmailFormatValidator();
+        } else if (formatName.equals("hostname")) {
+            return new HostnameFormatValidator();
+        } else if (formatName.equals("uri")) {
+            return new URIFormatValidator();
+        } else if (formatName.equals("ipv4")) {
+            return new IPV4Validator();
+        } else if (formatName.equals("ipv6")) {
+            return new IPV6Validator();
+        } else {
+            throw new IllegalArgumentException("unsupported format: " + formatName);
         }
     }
 

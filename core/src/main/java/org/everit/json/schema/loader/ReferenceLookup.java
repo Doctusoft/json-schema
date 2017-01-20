@@ -1,5 +1,6 @@
 package org.everit.json.schema.loader;
 
+import com.google.common.base.Preconditions;
 import org.everit.json.schema.ReferenceSchema;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.internal.JSONPointer;
@@ -8,8 +9,6 @@ import org.json.JSONObject;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * @author erosb
@@ -44,7 +43,7 @@ class ReferenceLookup {
     private LoadingState ls;
 
     public ReferenceLookup(LoadingState ls) {
-        this.ls = requireNonNull(ls, "ls cannot eb null");
+        this.ls = Preconditions.checkNotNull(ls, "ls cannot eb null");
     }
 
     /**

@@ -15,6 +15,7 @@
  */
 package org.everit.json.schema.loader.internal;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
@@ -30,8 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  * JSON pointer implementation.
@@ -54,8 +53,8 @@ public class JSONPointer {
          * @param queryResult        the JSON object being the result of the query execution.
          */
         public QueryResult(final JSONObject containingDocument, final JSONObject queryResult) {
-            this.containingDocument = requireNonNull(containingDocument, "containingDocument cannot be null");
-            this.queryResult = requireNonNull(queryResult, "queryResult cannot be null");
+            this.containingDocument = Preconditions.checkNotNull(containingDocument, "containingDocument cannot be null");
+            this.queryResult = Preconditions.checkNotNull(queryResult, "queryResult cannot be null");
         }
 
         /**

@@ -15,11 +15,11 @@
  */
 package org.everit.json.schema;
 
+import com.google.common.base.Objects;
 import org.everit.json.schema.internal.JSONPrinter;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -32,7 +32,7 @@ public class EnumSchema extends Schema {
      */
     public static class Builder extends Schema.Builder<EnumSchema> {
 
-        private Set<Object> possibleValues = new HashSet<>();
+        private Set<Object> possibleValues = new HashSet<Object>();
 
         @Override
         public EnumSchema build() {
@@ -58,7 +58,7 @@ public class EnumSchema extends Schema {
 
     public EnumSchema(final Builder builder) {
         super(builder);
-        possibleValues = Collections.unmodifiableSet(new HashSet<>(builder.possibleValues));
+        possibleValues = Collections.unmodifiableSet(new HashSet<Object>(builder.possibleValues));
     }
 
     public Set<Object> getPossibleValues() {
@@ -96,7 +96,7 @@ public class EnumSchema extends Schema {
         if (o instanceof EnumSchema) {
             EnumSchema that = (EnumSchema) o;
             return that.canEqual(this) &&
-                    Objects.equals(possibleValues, that.possibleValues) &&
+                    Objects.equal(possibleValues, that.possibleValues) &&
                     super.equals(that);
         } else {
             return false;
@@ -105,7 +105,7 @@ public class EnumSchema extends Schema {
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), possibleValues);
+        return Objects.hashCode(super.hashCode(), possibleValues);
     }
 
     @Override

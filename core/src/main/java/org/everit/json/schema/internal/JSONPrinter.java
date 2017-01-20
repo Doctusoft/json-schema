@@ -1,12 +1,11 @@
 package org.everit.json.schema.internal;
 
+import com.google.common.base.Preconditions;
 import org.everit.json.schema.Schema;
 import org.json.JSONWriter;
 
 import java.io.Writer;
 import java.util.Map;
-
-import static java.util.Objects.requireNonNull;
 
 public class JSONPrinter {
 
@@ -17,7 +16,7 @@ public class JSONPrinter {
     }
 
     public JSONPrinter(final JSONWriter writer) {
-        this.writer = requireNonNull(writer, "writer cannot be null");
+        this.writer = Preconditions.checkNotNull(writer, "writer cannot be null");
     }
 
     public JSONPrinter key(final String key) {

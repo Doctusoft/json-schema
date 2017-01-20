@@ -17,6 +17,7 @@ package org.everit.json.schema;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.FluentIterable;
@@ -41,14 +42,12 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-
 @RunWith(Parameterized.class)
 public class IssueTest {
 
     @Parameters(name = "{1}")
     public static List<Object[]> params() {
-        List<Object[]> rval = new ArrayList<>();
+        List<Object[]> rval = new ArrayList<Object[]>();
         try {
             File issuesDir = new File(
                     IssueTest.class.getResource("/org/everit/json/schema/issues").toURI());
@@ -69,7 +68,7 @@ public class IssueTest {
     private List<String> expectedFailureList;
 
     public IssueTest(final File issueDir, final String ignored) {
-        this.issueDir = requireNonNull(issueDir, "issueDir cannot be null");
+        this.issueDir = Preconditions.checkNotNull(issueDir, "issueDir cannot be null");
     }
 
     private Optional<File> fileByName(final String fileName) {

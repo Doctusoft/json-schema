@@ -36,7 +36,7 @@ public class DateTimeFormatValidator extends AbstractFormatValidator {
 
     private static final String PARTIAL_DATETIME_PATTERN = "yyyy-MM-dd'T'HH:mm:ss";
 
-    private static final String ZONE_OFFSET_PATTERN = "XXX";
+    private static final String ZONE_OFFSET_PATTERN = "[XX][XXX]";
 
     private static final DateTimeFormatter FORMATTER;
 
